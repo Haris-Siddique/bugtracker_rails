@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_23_074739) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_25_095411) do
+  create_table "bugs", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.date "dedline"
+    t.string "secreen_shot"
+    t.string "type", null: false
+    t.string "status", null: false
+    t.integer "project_id"
+    t.integer "developer_id"
+    t.integer "qa_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["developer_id"], name: "index_bugs_on_developer_id"
+    t.index ["project_id"], name: "index_bugs_on_project_id"
+    t.index ["qa_id"], name: "index_bugs_on_qa_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "project_name"
     t.integer "manager_id"
@@ -42,6 +59,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_23_074739) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bugs", "projects"
+  add_foreign_key "bugs", "users", column: "developer_id"
+  add_foreign_key "bugs", "users", column: "qa_id"
   add_foreign_key "projects", "users", column: "manager_id"
   add_foreign_key "projects_assigneds", "projects"
   add_foreign_key "projects_assigneds", "users"
