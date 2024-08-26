@@ -1,0 +1,51 @@
+
+
+<div class= "card">
+    <div class = "card-body">
+        <h1>Project: <%= @project.project_name %></h1>
+        <h1>Manager Name: <%= current_user.name %></h1>
+        <div class="row">
+            <div class="col-md-12">
+              <% if can? :update, @project %>
+                <%= link_to 'Edit Project', edit_project_path(@project), class: 'btn btn-warning' %>
+              <% end %>
+              <% if can? :destroy, @project %>
+                <%= link_to 'Delete Project', @project, method: :delete, data: {turbo_method: :delete,turbo_confirm: "Are you sure?"},class: 'btn btn-danger'%>
+              <% end %>
+              <% if can? :manage, Bug %>
+                <%= link_to 'Add Bug', new_project_bug_path(@project), class: 'btn btn-primary'%>
+              <% end %>
+              <%= link_to 'Back', projects_path, class: 'btn btn-secondary' %>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+   <h2>Bugs for this Project</h2>
+  <div class="row">
+    <% if @bugs.empty? %>
+      <p>No bugs for this project.</p>
+    <% else %>
+      <% @bugs.each do |bug| %>
+        <div class="col-md-4 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><%= bug.title %></h5>
+              <p class="card-text"><%= bug.description %></p>
+              <% if can? :read, bug %>
+                <%= link_to 'Bug Details', bug_path(bug), class: 'btn btn-info btn-sm' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+ 
+

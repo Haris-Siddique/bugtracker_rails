@@ -1,0 +1,53 @@
+<h1>Create a New Project</h1>
+
+<%= form_with(model: @project, local: true) do |form| %>
+ 
+  <div class="form-group">
+    <%= form.label :project_name, class: 'form-label' %>
+    <%= form.text_field :project_name, class: 'form-control', placeholder: 'Project Name' %>
+  </div>
+
+  <%= form.hidden_field :manager_id, value: current_user.id %>
+
+
+  <div class="form-group mt-3">
+    <label class="form-label">Assign Developers</label>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="developerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Select Developers
+      </button>
+      <div class="dropdown-menu" aria-labelledby="developerDropdown">
+        <% User.where(user_type: 'developer').each do |developer| %>
+          <div class="form-check dropdown-item">
+            <%= check_box_tag 'project[developer_ids][]', developer.id, @project.assigned_users.include?(developer), class: 'form-check-input', id: "developer_#{developer.id}" %>
+            <%= label_tag "developer_#{developer.id}", developer.name, class: 'form-check-label' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div class="form-group mt-3">
+    <label class="form-label">Assign QAs</label>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="qaDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Select QAs
+      </button>
+      <div class="dropdown-menu" aria-labelledby="qaDropdown">
+        <% User.where(user_type: 'qa').each do |qa| %>
+          <div class="form-check dropdown-item">
+            <%= check_box_tag 'project[qa_ids][]', qa.id, @project.assigned_users.include?(qa), class: 'form-check-input', id: "qa_#{qa.id}" %>
+            <%= label_tag "qa_#{qa.id}", qa.name, class: 'form-check-label' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="form-group mt-3">
+    <%= form.submit 'Create Project', class: 'btn btn-primary' %>
+    <%= link_to 'Back', root_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>

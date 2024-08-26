@@ -20,6 +20,8 @@ gem "jbuilder"
 # gem "redis", ">= 4.0.1"
 
 gem 'devise'
+gem 'cancancan'    
+gem 'carrierwave'
 
 gem "bootstrap"
 gem "sassc-rails"

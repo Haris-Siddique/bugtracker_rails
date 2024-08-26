@@ -1,0 +1,34 @@
+<h1 class="text-center mb-4">Projects</h1>
+
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <% if can? :manage, Project %>
+        <%= link_to 'Add New Project', new_project_path, class: 'btn btn-primary' %>
+      <% end %>
+      <%= link_to 'Back', root_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <% @projects.each do |project| %>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= project.project_name %></h5>
+            <p class="card-text">Manager Name: <%= User.find(project.manager_id).name %></p>
+            <p class="card-text">Manager ID: <%= project.manager_id %></p>
+
+            <% if can? :manage, project %>
+              <%= link_to 'Show', project_path(project), class: 'btn btn-info btn-sm' %>
+              <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-warning btn-sm' %>
+              <%= link_to 'Delete', project_path(project),  method: :delete, data: {turbo_method: :delete,turbo_confirm: "Are you sure?"}, class: 'btn btn-danger btn-sm' %>
+            <% elsif can? :read, project %>
+              <%= link_to 'Show', project_path(project), class: 'btn btn-info btn-sm' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
