@@ -10,6 +10,8 @@ class ProjectsController < ApplicationController
       @projects = current_user.assigned_projects
     elsif current_user.user_type == 'developer'
       @projects = current_user.assigned_projects
+    # elsif current_user.user_type == 'manager'
+    #   @projects = Project.where(manager_id: current_user.id) # show projects which was created by the current manager
     else
       @projects = Project.all
     end
@@ -24,7 +26,7 @@ class ProjectsController < ApplicationController
   def new
    
     @project = Project.new
-    @bug = Bug.new
+    # @bug = Bug.new
     
   end
 

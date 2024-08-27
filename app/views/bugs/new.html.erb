@@ -1,19 +1,45 @@
 <h1 class="text-center mb-4">Add a New Bug to <%= @project.project_name %></h1>
 
-<%= form_with(model: [@project, @bug], local: true) do |form| %>
+
+
+<%= form_with(model: [@project, @bug], local: true, html: { multipart: true }) do |form| %>
   <div class="form-group">
     <%= form.label :title, class: 'form-label' %>
-    <%= form.text_field :title, class: 'form-control', placeholder: 'Bug Title' %>
+    <%= form.text_field :title, class: 'form-control', placeholder: 'Title' %>
   </div>
 
   <div class="form-group mt-3">
     <%= form.label :description, class: 'form-label' %>
-    <%= form.text_area :description, class: 'form-control', placeholder: 'Bug Description' %>
+    <%= form.text_area :description, class: 'form-control', placeholder: 'Description' %>
   </div>
 
   <div class="form-group mt-3">
+  <%= form.label :deadline, class: 'form-label' %>
+  <%= form.date_field :deadline, class: 'form-control' %>
+</div>
+  
+  <div class="form-group mt-3">
+  <%= form.label :screen_shot, class: 'form-label' %>
+  <%= form.file_field :screen_shot, class: 'form-control' %>
+</div>
+
+  
+  <div class="form-group mt-3">
+    <%= form.label :type, class: 'form-label' %>
+    <%= form.select :type, ['Bug', 'Feature'], {include_blank: 'Select Status'}, class: 'form-select', id: 'bug_type_select' %>
+  </div>
+
+
+  <div class="form-group mt-3">
     <%= form.label :status, class: 'form-label' %>
-    <%= form.select :status, ['Open', 'In Progress', 'Closed'], { include_blank: 'Select Status' }, class: 'form-select' %>
+    <%= form.select :status, [], {}, class: 'form-select', id: 'status_select' %>
+  </div>
+
+
+  
+  <div class="form-group mt-3">
+    <%= form.label :developer_id, 'Assign Developer', class: 'form-label' %>
+    <%= form.collection_select :developer_id, @project.assigned_users.where(user_type: 'developer'), :id, :name, { include_blank: 'Select Developer' }, class: 'form-select' %>
   </div>
 
   <div class="form-group mt-3">
@@ -21,4 +47,11 @@
     <%= form.submit 'Create Bug', class: 'btn btn-primary' %>
     <%= link_to 'Back', project_path(@project), class: 'btn btn-secondary' %>
   </div>
+
 <% end %>
+
+
+
+
+
+

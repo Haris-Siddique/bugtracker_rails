@@ -1,0 +1,12 @@
+<div class="container">
+  <h1><%= @bug.title %></h1>
+  <% if @bug.screen_shot.present? %>
+    <%= image_tag @bug.screen_shot.url, class: 'img-fluid' %>
+  <% else %>
+    <p>No screenshot available.</p>
+  <% end %>
+  <p><%= @bug.description %></p>
+  <p>Deadline: <%= @bug.deadline %></p>
+
+  <%= link_to 'Back', project_path(@bug.project), class: 'btn btn-secondary' %>
+</div>

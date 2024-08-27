@@ -30,7 +30,7 @@
 
   <div>
     <%= f.label :user_type, "Choose a User Type:" %>
-    <%= f.select :user_type, options_for_select([['Manager', 'manager'], ['Developer', 'developer'], ['QA', 'qa']], resource.user_type) %>
+    <%= f.select :user_type, options_for_select([['Manager', 'manager'], ['Developer', 'developer'], ['QA', 'qa']], resource.user_type),{ include_blank: 'Select User Type' } %>
   </div>
 
   <div class="actions">

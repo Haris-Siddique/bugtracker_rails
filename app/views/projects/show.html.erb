@@ -6,12 +6,14 @@
         <h1>Manager Name: <%= current_user.name %></h1>
         <div class="row">
             <div class="col-md-12">
-              <% if can? :update, @project %>
-                <%= link_to 'Edit Project', edit_project_path(@project), class: 'btn btn-warning' %>
-              <% end %>
-              <% if can? :destroy, @project %>
-                <%= link_to 'Delete Project', @project, method: :delete, data: {turbo_method: :delete,turbo_confirm: "Are you sure?"},class: 'btn btn-danger'%>
-              <% end %>
+                
+                  <% if can? :manage, @project %>
+                    <%= link_to 'Edit Project', edit_project_path(@project), class: 'btn btn-warning' %>
+                  <% end %>
+                  <% if can? :manage, @project %>
+                    <%= link_to 'Delete Project', @project, method: :delete, data: {turbo_method: :delete,turbo_confirm: "Are you sure?"},class: 'btn btn-danger'%>
+                  <% end %>
+              
               <% if can? :manage, Bug %>
                 <%= link_to 'Add Bug', new_project_bug_path(@project), class: 'btn btn-primary'%>
               <% end %>
@@ -29,15 +31,31 @@
   <div class="row">
     <% if @bugs.empty? %>
       <p>No bugs for this project.</p>
-    <% else %>
+    <% elsif can? :read, Bug %>
       <% @bugs.each do |bug| %>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-10 mb-3">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title"><%= bug.title %></h5>
               <p class="card-text"><%= bug.description %></p>
+                <div class="card-image mb-3 row">
+                  <% if bug.screen_shot.present? %>
+                    <%= image_tag bug.screen_shot.url, class: 'img-fluid' %>
+                  <% else %>
+                      <p>No screenshot available.</p>
+                  <% end %>
+               </div>
+
               <% if can? :read, bug %>
-                <%= link_to 'Bug Details', bug_path(bug), class: 'btn btn-info btn-sm' %>
+                <%= link_to 'Bug Details', project_bug_path(@project, bug), class: 'btn btn-info btn-sm' %>
+              <% end %>
+
+              <% if can? :update, bug %>
+                <%= link_to 'Edit Bug', edit_project_bug_path(@project, bug), class: 'btn btn-warning btn-sm' %>
+              <% end %>
+
+              <% if can? :destroy, bug %>
+                <%= link_to 'Delete Bug', project_bug_path(@project, bug), method: :delete, data: {turbo_method: :delete,turbo_confirm: "Are you sure?"}, class: 'btn btn-danger btn-sm' %>
               <% end %>
             </div>
           </div>
@@ -46,6 +64,7 @@
     <% end %>
   </div>
 </div>
+
 
  
 
