@@ -1,40 +1,38 @@
-<h2>Sign up</h2>
+<h2 class="mb-2 text-center">Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'needs-validation', novalidate: true }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true %>
+  <div class="mb-3">
+    <%= f.label :name, class: 'form-label' %>
+    <%= f.text_field :name, autofocus: true, class: 'form-control', placeholder: 'Enter your name' %>
   </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email,  autocomplete: "email" %>
+  <div class="mb-3">
+    <%= f.label :email, class: 'form-label' %>
+    <%= f.email_field :email, autocomplete: "email", class: 'form-control', placeholder: 'Enter your email' %>
   </div>
 
-  <div class="field">
-    <%= f.label :password %>
+  <div class="mb-3">
+    <%= f.label :password, class: 'form-label' %>
     <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+      <div class="form-text">(<%= @minimum_password_length %> characters minimum)</div>
+    <% end %>
+    <%= f.password_field :password, autocomplete: "new-password", class: 'form-control', placeholder: 'Enter your password' %>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  <div class="mb-3">
+    <%= f.label :password_confirmation, class: 'form-label' %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control', placeholder: 'Confirm your password' %>
   </div>
 
-
-  <div>
-    <%= f.label :user_type, "Choose a User Type:" %>
-    <%= f.select :user_type, options_for_select([['Manager', 'manager'], ['Developer', 'developer'], ['QA', 'qa']], resource.user_type),{ include_blank: 'Select User Type' } %>
+  <div class="mb-3">
+    <%= f.label :user_type, "Choose a User Type:", class: 'form-label' %>
+    <%= f.select :user_type, options_for_select([['Manager', 'manager'], ['Developer', 'developer'], ['QA', 'qa']], resource.user_type), { include_blank: 'Select User Type' }, class: 'form-select' %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
+  <div class="mb-3">
+    <%= f.submit "Sign up", class: 'btn btn-primary' %>
   </div>
 <% end %>
 

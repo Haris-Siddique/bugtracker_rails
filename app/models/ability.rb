@@ -37,7 +37,9 @@ class Ability
     case user.user_type
     when 'manager'
       can :manage, Project, manager_id: user.id
-      can :read, Bug
+      can [:read, :update, :destroy], Bug, manager_id: user.id
+      can :create, Bug 
+      can :manage, Bug, manager_id: user.id
       can :manage, User
     when 'qa'
       can :read, Project, users: { id: user.id }
@@ -45,7 +47,7 @@ class Ability
       can :create, Bug 
       can :manage, Bug, qa_id: user.id
     when 'developer'
-      can :read, Project
+      can :read, Project, developer_id: user.id
       can [:read, :update], Bug, developer_id: user.id
     end
     

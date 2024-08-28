@@ -14,3 +14,17 @@
  *= require_self
  */
  @import "bootstrap";
+
+
+
+ .card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-image img {
+    max-height: 200px; 
+    object-fit: cover;
+  }
+  

@@ -1,12 +1,48 @@
-<div class="container">
-  <h1><%= @bug.title %></h1>
-  <% if @bug.screen_shot.present? %>
-    <%= image_tag @bug.screen_shot.url, class: 'img-fluid' %>
-  <% else %>
-    <p>No screenshot available.</p>
-  <% end %>
-  <p><%= @bug.description %></p>
-  <p>Deadline: <%= @bug.deadline %></p>
+<div class="container m-5 bg-light p-4 rounded-4">
+  <h1 class="mb-4"><%= @bug.title %></h1>
 
-  <%= link_to 'Back', project_path(@bug.project), class: 'btn btn-secondary' %>
+  <% if @bug.screen_shot.present? %>
+    <div class="mb-4">
+      <%= image_tag @bug.screen_shot.url, class: 'card-img img-fluid rounded' %>
+    </div>
+  <% else %>
+    <div class="mb-4">
+      <p class="text-muted">No screenshot available.</p>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <h5 class="fw-bold">Status:</h5>
+    <p class = "badge bg-info text-dark"><%= @bug.status %></p>
+  </div>
+
+  <div class="mb-3">
+    <h5 class="fw-bold">Description:</h5>
+    <p><%= @bug.description %></p>
+  </div>
+
+  <div class="mb-3">
+    <h5 class="fw-bold">Deadline:</h5>
+    <p><%= @bug.deadline %></p>
+  </div>
+
+  <div class="mb-3">
+    <h5 class="fw-bold">Assigned Developer:</h5>
+    <p><%= @bug.developer.name || 'Not assigned' %></p>
+  </div>
+
+  <div class="mb-3">
+    <h5 class="fw-bold">Created By:</h5>
+    <p><%= @bug.qa.name %></p>
+  </div>
+
+  <div class="mb-4">
+    <%= link_to 'Back to Project', project_path(@bug.project), class: 'btn btn-secondary' %>
+    <% if can? :update, @bug %>
+      <%= link_to 'Edit Bug', edit_project_bug_path(@bug.project, @bug), class: 'btn btn-warning ms-2' %>
+    <% end %>
+    <% if can? :destroy, @bug %>
+      <%= link_to 'Delete Bug', project_bug_path(@bug.project, @bug), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: 'btn btn-danger ms-2' %>
+    <% end %>
+  </div>
 </div>

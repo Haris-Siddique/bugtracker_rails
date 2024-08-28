@@ -14,6 +14,7 @@ class User < ApplicationRecord
 
   has_many :bugs_as_developer, class_name: 'Bug', foreign_key: 'developer_id'
   has_many :bugs_as_qa, class_name: 'Bug', foreign_key: 'qa_id'
+  has_many :bugs_as_manager, class_name: 'Bug', foreign_key: 'manager_id'
 
  
 

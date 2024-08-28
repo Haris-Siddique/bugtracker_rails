@@ -1,47 +1,62 @@
+<% if current_user.user_type == 'developer'%>
+<h1 class="text-center mb-4">Edit Status in <%= @project.project_name %></h1>
+<% else %>
 <h1 class="text-center mb-4">Edit Bug in <%= @project.project_name %></h1>
+<%end%>
 
 <%= form_with(model: [@project, @bug], local: true, html: { multipart: true }) do |form| %>
-  <div class="form-group">
-    <%= form.label :title, class: 'form-label' %>
-    <%= form.text_field :title, class: 'form-control', placeholder: 'Title' %>
-  </div>
 
-  <div class="form-group mt-3">
-    <%= form.label :description, class: 'form-label' %>
-    <%= form.text_area :description, class: 'form-control', placeholder: 'Description' %>
-  </div>
+  <% if current_user.user_type == 'developer' %>
+    <!-- Only show status field for developers -->
+    <div class="form-group mt-3">
+      <%= form.label :status, class: 'form-label' %>
+      <%= form.select :status, ['New', 'Started', 'Resolved'], {}, class: 'form-select', id: 'status_select', selected: @bug.status %>
+    </div>
+  <% else %>
+    <div class="form-group">
+      <%= form.label :title, class: 'form-label' %>
+      <%= form.text_field :title, class: 'form-control', placeholder: 'Title' %>
+    </div>
+  
+    <div class="form-group mt-3">
+      <%= form.label :description, class: 'form-label' %>
+      <%= form.text_area :description, class: 'form-control', placeholder: 'Description' %>
+    </div>
+  
+    <div class="form-group mt-3">
+      <%= form.label :deadline, class: 'form-label' %>
+      <%= form.date_field :deadline, class: 'form-control' %>
+    </div>
+  
+    <div class="form-group mt-3">
+      <%= form.label :screen_shot, class: 'form-label' %>
+      <%= form.file_field :screen_shot, class: 'form-control' %>
+      <% if @bug.screen_shot.present? %>
+        <p>Current Screenshot:</p>
+        <%= image_tag @bug.screen_shot.url, class: 'img-thumbnail' %>
+      <% end %>
+    </div>
+  
+    <div class="form-group mt-3">
+      <%= form.label :bug_type, class: 'form-label' %>
+      <%= form.select :bug_type, ['Bug', 'Feature'], { include_blank: 'Select Type' }, class: 'form-select', id: 'bug_type_select', selected: @bug.bug_type %>
+    </div>
+  
+    <div class="form-group mt-3">
+      <%= form.label :status, class: 'form-label' %>
+      <%= form.select :status, ['New', 'Started', 'Resolved'], {}, class: 'form-select', id: 'status_select', selected: @bug.status %>
+    </div>
+  
+    <div class="form-group mt-3">
+      <%= form.label :developer_id, 'Assign Developer', class: 'form-label' %>
+      <%= form.collection_select :developer_id, @project.assigned_users.where(user_type: 'developer'), :id, :name, { include_blank: 'Select Developer' }, class: 'form-select', selected: @bug.developer_id %>
+    </div>
+  <%end%>
+  
+    <div class="form-group mt-3">
+      <%= form.submit 'Update', class: 'btn btn-primary' %>
+      <%= link_to 'Back', project_path(@project), class: 'btn btn-secondary' %>
+    </div>
+ 
 
-  <div class="form-group mt-3">
-    <%= form.label :deadline, class: 'form-label' %>
-    <%= form.date_field :deadline, class: 'form-control' %>
-  </div>
-
-  <div class="form-group mt-3">
-    <%= form.label :screen_shot, class: 'form-label' %>
-    <%= form.file_field :screen_shot, class: 'form-control' %>
-    <% if @bug.screen_shot.present? %>
-      <p>Current Screenshot:</p>
-      <%= image_tag @bug.screen_shot.url, class: 'img-thumbnail' %>
-    <% end %>
-  </div>
-
-  <div class="form-group mt-3">
-    <%= form.label :type, class: 'form-label' %>
-    <%= form.select :type, ['Bug', 'Feature'], { include_blank: 'Select Type' }, class: 'form-select', id: 'bug_type_select', selected: @bug.type %>
-  </div>
-
-  <div class="form-group mt-3">
-    <%= form.label :status, class: 'form-label' %>
-    <%= form.select :status, ['New', 'Started', 'Resolved'], {}, class: 'form-select', id: 'status_select', selected: @bug.status %>
-  </div>
-
-  <div class="form-group mt-3">
-    <%= form.label :developer_id, 'Assign Developer', class: 'form-label' %>
-    <%= form.collection_select :developer_id, @project.assigned_users.where(user_type: 'developer'), :id, :name, { include_blank: 'Select Developer' }, class: 'form-select', selected: @bug.developer_id %>
-  </div>
-
-  <div class="form-group mt-3">
-    <%= form.submit 'Update Bug', class: 'btn btn-primary' %>
-    <%= link_to 'Back', project_path(@project), class: 'btn btn-secondary' %>
-  </div>
-<% end %>
+<%end%>

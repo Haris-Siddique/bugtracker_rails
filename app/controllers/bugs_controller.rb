@@ -1,7 +1,7 @@
 class BugsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project
-  before_action :set_bug, only: [:edit, :update, :destroy]
+  before_action :set_bug, only: [:edit, :update, :destroy, :show]
 
   load_and_authorize_resource :project
   load_and_authorize_resource :bug, through: :project, shallow: true
@@ -15,7 +15,7 @@ class BugsController < ApplicationController
   end
 
   def show
-    @bug 
+    @bug                                                                                                                                                                      
     @project
   end
 
@@ -23,10 +23,12 @@ class BugsController < ApplicationController
     @bug = @project.bugs.build(bug_params)
     @bug.developer_id = params[:bug][:developer_id] if params[:bug][:developer_id].present?
     @bug.qa_id = current_user.id if current_user.user_type == 'qa'
+    @bug.manager_id = current_user.id if current_user.user_type == 'manager'
 
     if @bug.save
       redirect_to project_path(@project), notice: 'Bug was successfully created.'
     else
+      flash.now[:alert] = @bug.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end
@@ -65,6 +67,6 @@ class BugsController < ApplicationController
   end
 
   def bug_params
-    params.require(:bug).permit(:title, :description, :project_id, :type, :status, :deadline, :screen_shot, :developer_id)
+    params.require(:bug).permit(:title, :description,:deadline, :screen_shot,:bug_type,:status,  :developer_id, :project_id )
   end
 end

@@ -25,8 +25,8 @@
 
   
   <div class="form-group mt-3">
-    <%= form.label :type, class: 'form-label' %>
-    <%= form.select :type, ['Bug', 'Feature'], {include_blank: 'Select Status'}, class: 'form-select', id: 'bug_type_select' %>
+    <%= form.label :bug_type, class: 'form-label' %>
+    <%= form.select :bug_type, ['Bug', 'Feature'], {include_blank: 'Select Status'}, class: 'form-select', id: 'bug_type_select' %>
   </div>
 
 
@@ -54,4 +54,4 @@
 
 
 
-
+<%= javascript_include_tag('status_change.js') %>

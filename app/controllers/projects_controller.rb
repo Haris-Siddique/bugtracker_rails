@@ -20,14 +20,17 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    if current_user.user_type == 'developer'
+      @bugs = @project.bugs.where(developer_id: current_user.id) 
+    else
     @bugs = @project.bugs
+    end
   end
 
   def new
    
     @project = Project.new
     # @bug = Bug.new
-    
   end
 
   def create
@@ -39,6 +42,7 @@ class ProjectsController < ApplicationController
       assign_selected_users(@project, params[:project][:developer_ids], params[:project][:qa_ids])
       redirect_to projects_path, notice: 'Project was successfully created.'
     else
+      flash.now[:alert] = @project.errors.full_messages.to_sentence
       render :new
     end
   end
@@ -49,10 +53,9 @@ class ProjectsController < ApplicationController
 
   def update
     if @project.update(project_params)
-      # Clear existing assignments
+
       @project.projects_assigneds.destroy_all
       
-      # Assign selected developers and QAs
       assign_users(@project, params[:project][:developer_ids], 'developer')
       assign_users(@project, params[:project][:qa_ids], 'qa')
 

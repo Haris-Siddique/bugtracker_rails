@@ -10,20 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_27_122209) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_28_164906) do
   create_table "bugs", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
     t.date "deadline"
     t.string "screen_shot"
-    t.string "type", null: false
+    t.string "bug_type", null: false
     t.string "status", null: false
     t.integer "project_id"
     t.integer "developer_id"
     t.integer "qa_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "manager_id"
     t.index ["developer_id"], name: "index_bugs_on_developer_id"
+    t.index ["manager_id"], name: "index_bugs_on_manager_id"
     t.index ["project_id"], name: "index_bugs_on_project_id"
     t.index ["qa_id"], name: "index_bugs_on_qa_id"
   end
@@ -61,6 +63,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_27_122209) do
 
   add_foreign_key "bugs", "projects"
   add_foreign_key "bugs", "users", column: "developer_id"
+  add_foreign_key "bugs", "users", column: "manager_id"
   add_foreign_key "bugs", "users", column: "qa_id"
   add_foreign_key "projects", "users", column: "manager_id"
   add_foreign_key "projects_assigneds", "projects"
