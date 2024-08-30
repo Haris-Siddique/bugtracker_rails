@@ -14,11 +14,16 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    
     <%= javascript_importmap_tags %>
+
+   
+
   </head>
 
   <body>
     <%= render "layouts/navbar" %>
+    
     <% if flash[:notice] %>
       <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
         <%= flash[:notice] %>
@@ -31,8 +36,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     <% end %>
-    <div class = "container-fluid">
 
+    <div class = "container-fluid">
     <%= yield %>
     </div>
   </body>

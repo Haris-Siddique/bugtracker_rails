@@ -32,9 +32,14 @@
   </div>
 
   <div class="mb-3">
-    <h5 class="fw-bold">Created By:</h5>
+  <h5 class="fw-bold">Created By:</h5>
+  <% if @bug.manager_id.present? && current_user.user_type == 'manager' %>
+    <p><%= @bug.manager.name %></p>
+  <% elsif @bug.qa_id.present? && current_user.user_type == 'qa' %>
     <p><%= @bug.qa.name %></p>
-  </div>
+  <% end %>
+</div>
+
 
   <div class="mb-4">
     <%= link_to 'Back to Project', project_path(@bug.project), class: 'btn btn-secondary' %>

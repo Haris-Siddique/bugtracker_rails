@@ -13,10 +13,5 @@ class Bug < ApplicationRecord
   validates :status, presence: true
 
   mount_uploader :screen_shot, ScreenShotUploader
-  # validates :screen_shot, file_content_type: { allow: ['image/png', 'image/gif'] }
-  
-
-  self.inheritance_column = nil
-
   
 end

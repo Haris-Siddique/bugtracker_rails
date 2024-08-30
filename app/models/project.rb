@@ -10,5 +10,6 @@ class Project < ApplicationRecord
  validates :project_name, presence: true
 
 
+ 
 
 end

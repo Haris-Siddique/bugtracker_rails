@@ -34,36 +34,56 @@ class ProjectsController < ApplicationController
   end
 
   def create
-   
     @project = Project.new(project_params)
     @project.manager_id = current_user.id
 
-    if @project.save
+    if params[:project][:project_name].blank?
+
+      redirect_to new_project_path, alert: 'Project Name cannot be blank.'
+
+    elsif params[:project][:developer_ids].blank? || params[:project][:qa_ids].blank?
+
+      redirect_to new_project_path, alert: 'Please select at least one Developer and one QA.'
+
+    elsif @project.save
+
       assign_selected_users(@project, params[:project][:developer_ids], params[:project][:qa_ids])
       redirect_to projects_path, notice: 'Project was successfully created.'
+
     else
-      flash.now[:alert] = @project.errors.full_messages.to_sentence
-      render :new
+      redirect_to new_project_path, alert: @project.errors.full_messages.to_sentence
     end
+    
   end
+  
 
   def edit
   end
 
-
   def update
-    if @project.update(project_params)
+    if params[:project][:project_name].blank?
+
+      redirect_to edit_project_path(@project), alert: 'Project name cannot be blank.'
+
+    elsif params[:project][:developer_ids].blank? || params[:project][:qa_ids].blank?
+
+      redirect_to edit_project_path(@project), alert: 'Please select at least one Developer and one QA.'
+
+    elsif @project.update(project_params)
 
       @project.projects_assigneds.destroy_all
       
       assign_users(@project, params[:project][:developer_ids], 'developer')
       assign_users(@project, params[:project][:qa_ids], 'qa')
-
+  
       redirect_to @project, notice: 'Project was successfully updated.'
+
     else
+      flash.now[:alert] = @project.errors.full_messages.to_sentence
       render :edit
     end
   end
+  
 
 
   def destroy
@@ -78,7 +98,7 @@ class ProjectsController < ApplicationController
   private
 
   def project_params
-    params.require(:project).permit(:project_name, :manager_id)
+    params.require(:project).permit(:project_name)
   end
 
   def assign_users(project, user_ids, user_type)
