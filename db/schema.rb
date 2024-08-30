@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_28_164906) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_30_160154) do
   create_table "bugs", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
     t.date "deadline"
     t.string "screen_shot"
-    t.string "bug_type", null: false
-    t.string "status", null: false
+    t.integer "bug_type"
+    t.integer "status", default: 0
     t.integer "project_id"
     t.integer "developer_id"
     t.integer "qa_id"

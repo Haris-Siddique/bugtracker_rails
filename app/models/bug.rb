@@ -13,5 +13,8 @@ class Bug < ApplicationRecord
   validates :status, presence: true
 
   mount_uploader :screen_shot, ScreenShotUploader
+
+  enum bug_type: {bug: 0, feature: 1}
+  enum status: {pending: 0, started: 1, completed: 2, resolved: 3}
   
 end
