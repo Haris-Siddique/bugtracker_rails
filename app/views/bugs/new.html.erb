@@ -5,65 +5,21 @@
 <h1 class="text-center mb-4">Add a New Bug to <%= @project.project_name %></h1>
 
 
-
-<%= form_with(model: [@project, @bug], local: true, html: { multipart: true }) do |form| %>
-  <div class="form-group">
-    <%= form.label :title, class: 'form-label' %>
-    <%= form.text_field :title, class: 'form-control', placeholder: 'Title' %>
-  </div>
-
-  <div class="form-group mt-3">
-    <%= form.label :description, class: 'form-label' %>
-    <%= form.text_area :description, class: 'form-control', placeholder: 'Description' %>
-  </div>
-
-  <div class="form-group mt-3">
-  <%= form.label :deadline, class: 'form-label' %>
-  <%= form.date_field :deadline, class: 'form-control' %>
-</div>
-  
-  <div class="form-group mt-3">
-  <%= form.label :screen_shot, class: 'form-label' %>
-  <%= form.file_field :screen_shot, class: 'form-control' %>
-</div>
-
-  
- <div class="form-group mt-3">
-    <%= form.label :bug_type, class: 'form-label' %>
-    <%= form.select :bug_type, Bug.bug_types.keys.map { |type| [type.humanize, type] }, { include_blank: 'Select Type' }, class: 'form-select', id: 'bug_type_select' %>
-  </div>
-
-  <div class="form-group mt-3">
-    <%= form.label :status, class: 'form-label' %>
-    <%= form.select :status, [], { include_blank: 'Select Status' }, class: 'form-select', id: 'status_select' %>
-  </div>
-
-
-  
-  <div class="form-group mt-3">
-    <%= form.label :developer_id, 'Assign Developer', class: 'form-label' %>
-    <%= form.collection_select :developer_id, @project.assigned_users.where(user_type: 'developer'), :id, :name, { include_blank: 'Select Developer' }, class: 'form-select' %>
-  </div>
-
-  <div class="form-group mt-3">
-    <%= form.hidden_field :project_id, value: @project.id %>
-    <%= form.submit 'Create Bug', class: 'btn btn-primary' %>
-    <%= link_to 'Back', project_path(@project), class: 'btn btn-secondary' %>
-  </div>
-
-<% end %>
-
-
+<%= render 'form', project: @project, bug: @bug %>
 
 
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+
+  document.addEventListener('DOMContentLoaded', initializeStatusSelect);
+  document.addEventListener('turbo:load', initializeStatusSelect);
+  document.addEventListener('turbo:frame-load', initializeStatusSelect);
+
+  function initializeStatusSelect() {
     const typeSelect = document.getElementById('bug_type_select');
     const statusSelect = document.getElementById('status_select');
-
-    function updateStatusOptions() {
-      const statusOptions = {
+  
+     const statusOptions = {
         bug: [
           { value: 'pending', text: 'Pending' },
           { value: 'started', text: 'Started' },
@@ -75,17 +31,18 @@
           { value: 'completed', text: 'Completed' }
         ]
       };
+  
+    function updateStatusOptions() {
+     
       const selectedType = typeSelect.value;
-
       console.log('Selected Type:', selectedType); // for debug
-      
       statusSelect.innerHTML = ''; 
       
       if (statusOptions[selectedType]) {
         statusOptions[selectedType].forEach(function(option) {
           const opt = document.createElement('option');
           opt.value = option.value;
-          console.log('Selected Value:', option.value);
+          console.log('Selected Value:', option.value);  // for debug
           opt.textContent = option.text;
           statusSelect.appendChild(opt);
         });
@@ -96,9 +53,9 @@
         statusSelect.appendChild(opt);
       }
     }
-
+  
     typeSelect.addEventListener('change', updateStatusOptions);
     updateStatusOptions();
-  });
+  }
 
 </script>
