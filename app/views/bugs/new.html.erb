@@ -7,9 +7,9 @@
 
 <%= render 'form', project: @project, bug: @bug %>
 
-<%= javascript_include_tag "status_change", 'data-turbolinks-track': 'reload'%>
+<!--<%= javascript_include_tag "status_change", 'data-turbolinks-track': 'reload'%>-->
 
-<%# <script>
+<script>
 
   document.addEventListener('DOMContentLoaded', initializeStatusSelect);
   document.addEventListener('turbo:load', initializeStatusSelect);
@@ -58,4 +58,4 @@
     updateStatusOptions();
   }
 
-</script> %>
+</script>
