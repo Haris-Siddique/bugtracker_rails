@@ -1,4 +1,5 @@
 class BugsController < ApplicationController
+  
   before_action :authenticate_user!
   before_action :set_project
   before_action :set_bug, only: [:edit, :update, :destroy, :show]

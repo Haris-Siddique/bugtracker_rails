@@ -1,8 +1,7 @@
 class ProjectsController < ApplicationController
 
-  load_and_authorize_resource
-
   before_action :authenticate_user!
+  load_and_authorize_resource
 
   def index
   
@@ -28,7 +27,6 @@ class ProjectsController < ApplicationController
   end
 
   def new
-   
     @project = Project.new
     # @bug = Bug.new
   end
@@ -56,7 +54,6 @@ class ProjectsController < ApplicationController
     
   end
   
-
   def edit
   end
 
@@ -72,42 +69,25 @@ class ProjectsController < ApplicationController
     elsif @project.update(project_params)
 
       @project.projects_assigneds.destroy_all
-      
-      assign_users(@project, params[:project][:developer_ids], 'developer')
-      assign_users(@project, params[:project][:qa_ids], 'qa')
-  
+
+      assign_selected_users(@project, params[:project][:developer_ids], params[:project][:qa_ids])
       redirect_to @project, notice: 'Project was successfully updated.'
 
     else
+
       flash.now[:alert] = @project.errors.full_messages.to_sentence
       render :edit
+      
     end
   end
   
-
-
   def destroy
     @project.destroy
     redirect_to projects_path, notice: 'Project was successfully deleted.'
   end
 
 
-
-
-
   private
-
-  def project_params
-    params.require(:project).permit(:project_name)
-  end
-
-  def assign_users(project, user_ids, user_type)
-    return unless user_ids
-
-    user_ids.each do |user_id|
-      ProjectsAssigned.create(project: project, user_id: user_id) unless ProjectsAssigned.exists?(project: project, user_id: user_id)
-    end
-  end
 
   def project_params
     params.require(:project).permit(:project_name)
@@ -121,12 +101,12 @@ class ProjectsController < ApplicationController
       end
     end
 
-  
     if qa_ids.present?
       qa_ids.reject(&:blank?).each do |qa_id|
         ProjectsAssigned.find_or_create_by(project: project, user_id: qa_id)
       end
     end
+
   end
  
 end
