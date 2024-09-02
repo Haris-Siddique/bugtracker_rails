@@ -13,7 +13,7 @@
   <div class="row">
     <% @projects.each do |project| %>
       <div class="col-md-4 mb-4">
-        <div class="card shadow-sm">
+        <div class="card bg-light shadow-sm">
           <div class="card-body">
             <h5 class="card-title font-weight-bold"><%= project.project_name %></h5>
             <p class="card-text"><strong>Manager Name:</strong> <%= User.find(project.manager_id).name %></p>

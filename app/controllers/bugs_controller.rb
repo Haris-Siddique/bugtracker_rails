@@ -16,7 +16,7 @@ class BugsController < ApplicationController
 
   def show
     @bug                                                                                                                                                                      
-    @project
+    # @project
   end
 
   def create
@@ -28,8 +28,7 @@ class BugsController < ApplicationController
     if @bug.save
       redirect_to project_path(@project), notice: 'Bug was successfully created.'
     else
-      flash.now[:alert] = @bug.errors.full_messages.to_sentence
-      render :new, status: :unprocessable_entity
+      redirect_to new_project_bug_path, alert: @bug.errors.full_messages.to_sentence
     end
   end
 
@@ -42,7 +41,7 @@ class BugsController < ApplicationController
     if @bug.update(bug_params)
       redirect_to project_path(@project), notice: 'Bug was successfully updated.'
     else
-      render :edit
+      render :edit, notice: 'Please select status'
     end
   end
 

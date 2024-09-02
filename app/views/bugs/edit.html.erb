@@ -8,15 +8,14 @@
 
 <%= render 'form', project: @project, bug: @bug %>
 
+<%= javascript_include_tag "status_change", 'data-turbolinks-track': 'reload'%>
 
+<%# <script>
 
-
-<script>
   document.addEventListener('DOMContentLoaded', initializeStatusSelect);
   document.addEventListener('turbo:load', initializeStatusSelect);
   document.addEventListener('turbo:frame-load', initializeStatusSelect);
-  document.addEventListener('turbo:frame-missing', initializeStatusSelect);
-  
+
   function initializeStatusSelect() {
     const typeSelect = document.getElementById('bug_type_select');
     const statusSelect = document.getElementById('status_select');
@@ -60,4 +59,4 @@
     updateStatusOptions();
   }
 
-</script>
+</script> %>

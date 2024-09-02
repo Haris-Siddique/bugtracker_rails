@@ -24,7 +24,26 @@
   }
   
   .card-image img {
-    max-height: 200px; 
+   
+    object-fit: cover;
+  }
+
+  .card-img-top {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img-top img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
   
+  .hight{
+    min-height: 10rem;
+    max-height: 10rem; 
+  }
+
+  .image-cover{
+    object-fit: contain;
+  }

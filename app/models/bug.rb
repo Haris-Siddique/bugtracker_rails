@@ -8,6 +8,7 @@ class Bug < ApplicationRecord
 
 
   validates :title, presence: true
+  validates :title, uniqueness: { scope: :project_id, message: 'Bug or Feature must be unique within a project', case_sensitive: false }
   validates :description, presence: true
   validates :bug_type, presence: true
   validates :status, presence: true

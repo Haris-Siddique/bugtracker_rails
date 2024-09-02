@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <div class="card shadow-sm">
+  <div class="card shadow-sm bg-light">
     <div class="card-body">
       <h1 class="card-title">Project: <%= @project.project_name %></h1>
       <h3 class="card-subtitle mb-4 text-muted">Manager Name: <%= current_user.name %></h3>
@@ -29,16 +29,17 @@
       <% @bugs.each do |bug| %>
         <div class="col-md-6 mb-4">
           <div class="card shadow-sm h-100">
-            <div class= "card-img-top">
+            <div class= "card-img-top hight">
               <% if bug.screen_shot.present? %>
-                <div class="card-image mb-3">
-                  <%= image_tag bug.screen_shot.url, class: 'img-fluid rounded' %>
+                <div class="card-image">
+                  <%= image_tag bug.screen_shot.url, class: ' img-fluid rounded' %>
                 </div>
               <% else %>
                 <p class="text-muted">No screenshot available.</p>
               <% end %>
             </div>
-            <div class="card-body">
+            <hr class="m-0">
+            <div class="card-body bg-light">
               <h5 class="card-title d-flex justify-content-between">
                 <span><%= bug.title %></span>
                 <span class="badge bg-warning text-dark"><%= bug.status %></span>
