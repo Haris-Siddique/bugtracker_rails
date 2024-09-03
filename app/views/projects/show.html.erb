@@ -4,8 +4,8 @@
       <h1 class="card-title">Project: <%= @project.project_name %></h1>
       <h3 class="card-subtitle mb-4 text-muted">Manager Name: <%= current_user.name %></h3>
 
-      <div class="row mb-3">
-        <div class="col-md-12 d-flex flex-wrap gap-2">
+      <div class="row mb-3 ">
+        <div class="btn-group col-md-5">
           <% if can? :manage, @project %>
             <%= link_to 'Edit Project', edit_project_path(@project), class: 'btn btn-warning' %>
             <%= link_to 'Delete Project', @project, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: 'btn btn-danger' %>
@@ -42,7 +42,13 @@
             <div class="card-body bg-light">
               <h5 class="card-title d-flex justify-content-between">
                 <span><%= bug.title %></span>
-                <span class="badge bg-warning text-dark"><%= bug.status %></span>
+                <%if bug.status == "resolved" || bug.status == "completed"%>
+                <span class="badge bg-success text-light"><%= bug.status %></span>
+                <%elsif bug.status == "started"%>
+                 <span class="badge bg-warning text-dark"><%= bug.status %></span>
+                <%elsif bug.status == "pending"%>
+                 <span class="badge bg-danger text-light"><%= bug.status %></span>
+                <%end%>
               </h5>
               
               <p class="card-text">
@@ -62,7 +68,7 @@
               </p>
              
               
-              <div class="d-flex flex-wrap gap-2 mt-3">
+              <div class="btn-group">
                 <% if can? :read, bug %>
                   <%= link_to 'Details', project_bug_path(@project, bug), class: 'btn btn-info btn-sm' %>
                 <% end %>

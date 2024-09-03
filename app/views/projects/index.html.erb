@@ -19,7 +19,7 @@
             <p class="card-text"><strong>Manager Name:</strong> <%= User.find(project.manager_id).name %></p>
             <p class="card-text"><strong>Manager ID:</strong> <%= project.manager_id %></p>
 
-            <div class="d-flex justify-content-between">
+            <div class="btn-group">
               <% if can? :manage, project %>
                 <%= link_to 'Show', project_path(project), class: 'btn btn-info btn-sm' %>
                 <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-warning btn-sm' %>
