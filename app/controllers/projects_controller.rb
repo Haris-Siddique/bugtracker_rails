@@ -5,9 +5,7 @@ class ProjectsController < ApplicationController
 
   def index
   
-    if current_user.user_type == 'qa'
-      @projects = current_user.assigned_projects
-    elsif current_user.user_type == 'developer'
+    if current_user.user_type == 'qa' || current_user.user_type == 'developer'
       @projects = current_user.assigned_projects
     # elsif current_user.user_type == 'manager'
     #   @projects = Project.where(manager_id: current_user.id) # show projects which was created by the current manager
@@ -22,7 +20,7 @@ class ProjectsController < ApplicationController
     if current_user.user_type == 'developer'
       @bugs = @project.bugs.where(developer_id: current_user.id) 
     else
-    @bugs = @project.bugs
+      @bugs = @project.bugs
     end
   end
 
