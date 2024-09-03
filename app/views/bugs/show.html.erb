@@ -13,7 +13,13 @@
 
   <div class="mb-3">
     <h5 class="fw-bold">Status:</h5>
-    <p class = "badge bg-info text-dark"><%= @bug.status %></p>
+    <%if @bug.status == "resolved" || @bug.status == "completed"%>
+    <span class="badge bg-success text-light"><%= @bug.status %></span>
+    <%elsif @bug.status == "started"%>
+     <span class="badge bg-warning text-dark"><%= @bug.status %></span>
+    <%elsif @bug.status == "pending"%>
+     <span class="badge bg-danger text-light"><%= @bug.status %></span>
+    <%end%>
   </div>
 
   <div class="mb-3">
