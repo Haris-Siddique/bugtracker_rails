@@ -55,7 +55,11 @@
     <%end%>
     
     <div class="form-group mt-3">
-      <%= form.submit 'Add', class: 'btn btn-primary' %>
+      <% if bug.new_record? %>
+        <%= form.submit 'Create', class: 'btn btn-primary' %>
+      <%else%>
+        <%= form.submit 'Update', class: 'btn btn-primary' %>
+      <%end%>
       <%= link_to 'Back', :back, class: 'btn btn-secondary' %>
     </div>
    
